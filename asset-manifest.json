@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/pavlo-gleck/static/css/main.5ecd60fb.chunk.css",
-    "main.js": "/pavlo-gleck/static/js/main.b8098e09.chunk.js",
-    "main.js.map": "/pavlo-gleck/static/js/main.b8098e09.chunk.js.map",
+    "main.js": "/pavlo-gleck/static/js/main.a2599b3a.chunk.js",
+    "main.js.map": "/pavlo-gleck/static/js/main.a2599b3a.chunk.js.map",
     "runtime-main.js": "/pavlo-gleck/static/js/runtime-main.07ec3805.js",
     "runtime-main.js.map": "/pavlo-gleck/static/js/runtime-main.07ec3805.js.map",
     "static/js/2.d293cec1.chunk.js": "/pavlo-gleck/static/js/2.d293cec1.chunk.js",
     "static/js/2.d293cec1.chunk.js.map": "/pavlo-gleck/static/js/2.d293cec1.chunk.js.map",
     "index.html": "/pavlo-gleck/index.html",
-    "precache-manifest.377a027bae5eff5959f0160f1c31f670.js": "/pavlo-gleck/precache-manifest.377a027bae5eff5959f0160f1c31f670.js",
+    "precache-manifest.78c7a0a65a0ce991a87c5bcf26f7ff7a.js": "/pavlo-gleck/precache-manifest.78c7a0a65a0ce991a87c5bcf26f7ff7a.js",
     "service-worker.js": "/pavlo-gleck/service-worker.js",
     "static/css/main.5ecd60fb.chunk.css.map": "/pavlo-gleck/static/css/main.5ecd60fb.chunk.css.map",
     "static/js/2.d293cec1.chunk.js.LICENSE.txt": "/pavlo-gleck/static/js/2.d293cec1.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.07ec3805.js",
     "static/js/2.d293cec1.chunk.js",
     "static/css/main.5ecd60fb.chunk.css",
-    "static/js/main.b8098e09.chunk.js"
+    "static/js/main.a2599b3a.chunk.js"
   ]
 }
