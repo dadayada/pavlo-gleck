@@ -7,8 +7,13 @@ import {
   categoryNameChanged,
   personNameChanged,
   categoriesForPersonAdded,
+  tagAdded,
+  tagAddedForPerson,
+  tagNameChanged,
+  tagRemoved,
+  tagRemovedForPerson,
 } from '.';
-import { $people, $categories, $peopleInfo } from './state';
+import { $people, $categories, $peopleInfo, $peopleTags, $tags } from './state';
 
 $people
   .on(personAdded, (s, { id, fullName }) => [...s, { id, fullName }])
@@ -57,3 +62,33 @@ $peopleInfo
       }, {}),
     },
   }));
+
+$tags
+  .on(tagAdded, (s, p) => [...s, p])
+  .on(tagRemoved, (s, p) => s.filter(el => el.id !== p.id))
+  .on(tagNameChanged, (s, p) =>
+    s.map(el => (el.id === p.id ? { ...el, name: p.name } : el))
+  );
+
+$peopleTags
+  .on(personAdded, (s, p) => [...s, { id: p.id, tags: p.tags }])
+  .on(personRemoved, (s, p) => s.filter(el => el.id !== p.id))
+  .on(tagAddedForPerson, (s, p) =>
+    s.map(el =>
+      el.id === p.personId ? { id: el.id, tags: [...el.tags, p.tagId] } : el
+    )
+  )
+  .on(tagRemovedForPerson, (s, p) =>
+    s.map(el =>
+      el.id === p.personId
+        ? { id: el.id, tags: el.tags.filter(tag => tag !== p.tagId) }
+        : el
+    )
+  )
+  .on(tagRemoved, (s, p) =>
+    s.map(el =>
+      el.tags.includes(p.id)
+        ? { ...el, tags: el.tags.filter(id => id !== p.id) }
+        : el
+    )
+  );

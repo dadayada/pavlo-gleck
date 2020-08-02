@@ -12,7 +12,7 @@ import {
 import { FormControl } from 'baseui/form-control';
 import { Input } from 'baseui/input';
 import { Select } from 'baseui/select';
-import { $categories } from '../core/state';
+import { $categories, $tags } from '../core/state';
 import {
   $modalOpen,
   modalClose,
@@ -25,15 +25,20 @@ import {
   categoryNameChanged,
   $categoriesSelectValue,
   categoriesSelectChanged,
+  $tagName,
+  newTagDataPushed,
+  tagNameChanged,
+  $selectedTags,
+  selectedTagsChanged,
 } from './init';
 
-export function AddModal() {
+function AddPersonModal() {
   const modalOpen = useStore($modalOpen);
   const fullName = useStore($fullName);
-  const categoryName = useStore($categoryName);
-  const modalType = useStore($modalType);
   const categories = useStore($categories);
   const categoriesValue = useStore($categoriesSelectValue);
+  const selectedTags = useStore($selectedTags);
+  const tags = useStore($tags);
   return (
     <Modal
       isOpen={modalOpen}
@@ -43,47 +48,111 @@ export function AddModal() {
       size={SIZE.default}
       role={ROLE.dialog}
     >
-      <ModalHeader>
-        {modalType === 'category' ? 'New category' : 'New person'}
-      </ModalHeader>
+      <ModalHeader>New person</ModalHeader>
       <ModalBody>
-        <FormControl
-          label={modalType === 'category' ? 'Category name' : 'Full name'}
-        >
+        <FormControl label='Full name'>
           <Input
-            id={modalType === 'category' ? 'category-name' : 'full-name'}
-            value={modalType === 'category' ? categoryName : fullName}
-            onChange={e =>
-              modalType === 'category'
-                ? categoryNameChanged(e.target.value)
-                : fullNameChanged(e.target.value)
-            }
+            id='full-name'
+            value={fullName}
+            onChange={e => fullNameChanged(e.target.value)}
           />
         </FormControl>
-        {modalType === 'person' && (
-          <FormControl label='Choose categories'>
-            <Select
-              multi
-              options={categories}
-              labelKey='name'
-              value={categoriesValue}
-              closeOnSelect={false}
-              onChange={categoriesSelectChanged}
-            />
-          </FormControl>
-        )}
+        <FormControl label='Choose categories'>
+          <Select
+            multi
+            options={categories}
+            labelKey='name'
+            value={categoriesValue}
+            closeOnSelect={false}
+            onChange={categoriesSelectChanged}
+          />
+        </FormControl>
+        <FormControl label='Choose tags'>
+          <Select
+            multi
+            options={tags}
+            labelKey='name'
+            value={selectedTags}
+            closeOnSelect={false}
+            onChange={selectedTagsChanged}
+          />
+        </FormControl>
       </ModalBody>
       <ModalFooter>
-        <ModalButton
-          onClick={
-            modalType === 'category'
-              ? newCategoryDataPushed
-              : newPersonDataPushed
-          }
-        >
-          Add
-        </ModalButton>
+        <ModalButton onClick={newPersonDataPushed}>Add</ModalButton>
       </ModalFooter>
     </Modal>
   );
+}
+
+function AddCategoryModal() {
+  const modalOpen = useStore($modalOpen);
+  const categoryName = useStore($categoryName);
+  return (
+    <Modal
+      isOpen={modalOpen}
+      onClose={modalClose}
+      animate
+      autoFocus
+      size={SIZE.default}
+      role={ROLE.dialog}
+    >
+      <ModalHeader>New category</ModalHeader>
+      <ModalBody>
+        <FormControl label='Category name'>
+          <Input
+            id='category-name'
+            value={categoryName}
+            onChange={e => categoryNameChanged(e.target.value)}
+          />
+        </FormControl>
+      </ModalBody>
+      <ModalFooter>
+        <ModalButton onClick={newCategoryDataPushed}>Add</ModalButton>
+      </ModalFooter>
+    </Modal>
+  );
+}
+
+function AddTagModal() {
+  const modalOpen = useStore($modalOpen);
+  const tagName = useStore($tagName);
+  return (
+    <Modal
+      isOpen={modalOpen}
+      onClose={modalClose}
+      animate
+      autoFocus
+      size={SIZE.default}
+      role={ROLE.dialog}
+    >
+      <ModalHeader>New tag</ModalHeader>
+      <ModalBody>
+        <FormControl label='Tag name'>
+          <Input
+            id='tag-name'
+            value={tagName}
+            onChange={e => tagNameChanged(e.target.value)}
+          />
+        </FormControl>
+      </ModalBody>
+      <ModalFooter>
+        <ModalButton onClick={newTagDataPushed}>Add</ModalButton>
+      </ModalFooter>
+    </Modal>
+  );
+}
+
+export function AddModal() {
+  const modalType = useStore($modalType);
+  if (modalType === 'person') {
+    return <AddPersonModal />;
+  }
+  if (modalType === 'category') {
+    return <AddCategoryModal />;
+  }
+  if (modalType === 'tag') {
+    return <AddTagModal />;
+  }
+  return null;
 }

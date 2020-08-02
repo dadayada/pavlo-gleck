@@ -18,5 +18,3 @@ export const $confirmModalOpen = createStore(false)
 $confirmModalOwner
   .on(confirmModalOpened, (_, p) => p)
   .reset([confirmModalClickedCancel, confirmModalClosed]);
-
-  $confirmModalOwner.watch(console.log)

@@ -10,6 +10,7 @@ import { AddModal } from '../add-modal/view';
 import { PersonInfo } from '../person-info/view';
 import { ConfirmModal } from '../confirm-modal/view';
 import { EditCategories } from '../edit-categories/view';
+import { EditTags } from '../edit-tags/view';
 
 const engine = new Styletron();
 
@@ -19,7 +20,7 @@ export function App() {
       <BaseProvider theme={LightTheme}>
         <Router>
           <Block>
-            <Block margin='scale500'>
+            <Block margin='scale300'>
               <Header />
             </Block>
             <Switch>
@@ -31,6 +32,9 @@ export function App() {
               </Route>
               <Route path='/edit-categories'>
                 <EditCategories />
+              </Route>
+              <Route path='/edit-tags'>
+                <EditTags />
               </Route>
             </Switch>
             <AddModal />

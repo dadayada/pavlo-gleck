@@ -9,4 +9,10 @@ export const categoriesReordered = createEvent();
 
 export const personNameChanged = createEvent();
 export const personInfoEdited = createEvent(); // payload: { personId, info: { categoryId: value } }
-export const categoriesForPersonAdded = createEvent(); 
+export const categoriesForPersonAdded = createEvent();
+
+export const tagAdded = createEvent(); // { id: number, name: string }
+export const tagRemoved = createEvent(); // { id: number }
+export const tagNameChanged = createEvent(); // { id: number, name: string }
+export const tagAddedForPerson = createEvent(); // { tagId: number, personId: number }
+export const tagRemovedForPerson = createEvent(); // { personId: number, tagId: number }

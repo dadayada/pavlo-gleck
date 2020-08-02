@@ -1,11 +1,18 @@
 import { createGate } from 'effector-react';
-import { combine, sample, createEvent, createStore } from 'effector';
-import { $categories, $peopleInfo, $people } from '../core/state';
+import { combine, sample, createEvent } from 'effector';
+import {
+  $categories,
+  $peopleInfo,
+  $people,
+  $tags,
+  $peopleTags,
+} from '../core/state';
 import {
   personInfoEdited,
   personNameChanged,
   categoriesForPersonAdded,
 } from '../core';
+import { $newCategorySelectValue, $tagsModalOpen } from './state';
 
 export const personInfoGate = createGate('person-info');
 export const categoryEdited = createEvent();
@@ -13,9 +20,28 @@ export const fullNameChanged = createEvent();
 export const newCategorySelectChanged = createEvent();
 export const addCategoriesClicked = createEvent();
 
-export const $newCategorySelectValue = createStore([])
+export const tagsModalClosed = createEvent();
+export const selectedTagsChanged = createEvent();
+export const changeTagsClicked = createEvent();
+
+$tagsModalOpen.on(changeTagsClicked, () => true).reset([tagsModalClosed]);
+
+$newCategorySelectValue
   .on(newCategorySelectChanged, (_, p) => p.value)
   .reset([categoriesForPersonAdded, personInfoGate.state]);
+
+export const $personTags = combine(
+  personInfoGate.state,
+  $tags,
+  $peopleTags,
+  ({ id }, tags, peopleTags) => {
+    if (!id) {
+      return [];
+    }
+    const personTags = peopleTags.find(el => String(el.id) === String(id)).tags;
+    return tags.map(el => ({ ...el, selected: personTags.includes(el.id) }));
+  }
+);
 
 export const $fullName = combine(
   personInfoGate.state,
