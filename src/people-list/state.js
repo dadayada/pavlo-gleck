@@ -15,9 +15,12 @@ const $peopleList = combine(
       )
       .map(person => ({
         ...person,
-        tags: peopleTags
-          .find(el => el.id === person.id)
-          .tags.map(tagId => tags.find(tag => tag.id === tagId)),
+        tags: // TODO: workaround for alpha -> 1.0.0 migration
+          peopleTags.length > 0
+            ? peopleTags
+                .find(el => el.id === person.id)
+                .tags.map(tagId => tags.find(tag => tag.id === tagId))
+            : [],
       }))
       .filter(
         person =>

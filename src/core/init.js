@@ -1,3 +1,4 @@
+import { sample } from 'effector';
 import {
   personAdded,
   personRemoved,
@@ -12,8 +13,16 @@ import {
   tagNameChanged,
   tagRemoved,
   tagRemovedForPerson,
+  appMigratedFromAlphaToV1_0_0,
 } from '.';
-import { $people, $categories, $peopleInfo, $peopleTags, $tags } from './state';
+import {
+  $people,
+  $categories,
+  $peopleInfo,
+  $peopleTags,
+  $tags,
+  $appVersion,
+} from './state';
 
 $people
   .on(personAdded, (s, { id, fullName }) => [...s, { id, fullName }])
@@ -92,3 +101,18 @@ $peopleTags
         : el
     )
   );
+
+$appVersion.on(appMigratedFromAlphaToV1_0_0, () => '1.0.0');
+
+sample({
+  clock: appMigratedFromAlphaToV1_0_0,
+  source: $people,
+  fn: people => people.map(person => ({ id: person.id, tags: [] })),
+  target: $peopleTags,
+});
+
+$appVersion.watch(s => {
+  if (s === 'alpha') {
+    appMigratedFromAlphaToV1_0_0();
+  }
+})
