@@ -103,6 +103,7 @@ export function Header() {
             placeholder='Search person'
             value={searchValue}
             onChange={searchValueChanged}
+            clearable
           />
         </Route>
         <Route path='*'>

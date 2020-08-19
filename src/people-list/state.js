@@ -1,21 +1,53 @@
 import { combine } from 'effector';
-import { $people, $peopleTags, $tags } from '../core/state';
+import {
+  $people,
+  $peopleTags,
+  $tags,
+  $peopleInfo,
+  $categories,
+} from '../core/state';
 import { $searchValue, $selectedTags } from '../header/state';
 
+// TODO: refactor this
 const $peopleList = combine(
   $searchValue,
   $people,
   $peopleTags,
   $tags,
   $selectedTags,
-  (searchValue, people, peopleTags, tags, selectedTags) =>
-    people
-      .filter(el =>
-        el.fullName.toLowerCase().includes(searchValue.toLowerCase())
+  $peopleInfo,
+  $categories,
+  (
+    searchValue,
+    people,
+    peopleTags,
+    tags,
+    selectedTags,
+    peopleInfo,
+    categories
+  ) => {
+    return people
+      .map(person => ({
+        ...person,
+        categories: Array.from(Object.entries(peopleInfo[person.id]))
+          .map(([categoryId, categoryContent]) => ({
+            categoryId: Number(categoryId),
+            categoryContent,
+            categoryName: categories.find(el => el.id === Number(categoryId)).name,
+          }))
+          .filter(({ categoryContent }) =>
+            searchValue && categoryContent.toLowerCase().includes(searchValue.toLowerCase())
+          ),
+      }))
+      .filter(
+        el =>
+          el.fullName.toLowerCase().includes(searchValue.toLowerCase()) ||
+          el.categories.length > 0
       )
       .map(person => ({
         ...person,
-        tags: // TODO: workaround for alpha -> 1.0.0 migration
+        // TODO: workaround for alpha -> 1.0.0 migration
+        tags:
           peopleTags.length > 0
             ? peopleTags
                 .find(el => el.id === person.id)
@@ -28,7 +60,8 @@ const $peopleList = combine(
           selectedTags.some(tagId =>
             Boolean(person.tags.find(tag => tag.id === tagId))
           )
-      )
+      );
+  }
 );
 
 export { $peopleList };
