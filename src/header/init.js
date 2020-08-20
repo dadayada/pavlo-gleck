@@ -1,5 +1,19 @@
-import { tagToggled, clearSelectedTagsClicked } from '.';
+import {
+  tagToggled,
+  clearSelectedTagsClicked,
+  exportClicked,
+  exportToJSONFileFx,
+} from '.';
 import { $selectedTags } from './state';
+import { sample } from 'effector';
+import {
+  $people,
+  $categories,
+  $peopleInfo,
+  $tags,
+  $peopleTags,
+  $appVersion,
+} from '../core/state';
 
 $selectedTags
   .on(tagToggled, (s, p) => {
@@ -9,3 +23,16 @@ $selectedTags
     return s.filter(id => id !== p.id);
   })
   .reset(clearSelectedTagsClicked);
+
+sample({
+  clock: exportClicked,
+  source: {
+    people: $people,
+    categories: $categories,
+    peopleInfo: $peopleInfo,
+    tags: $tags,
+    peopleTags: $peopleTags,
+    appVersion: $appVersion,
+  },
+  target: exportToJSONFileFx,
+});

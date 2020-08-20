@@ -15,6 +15,7 @@ import {
   addTagClicked,
   tagToggled,
   clearSelectedTagsClicked,
+  exportClicked,
 } from '.';
 import { $tags } from '../core/state';
 
@@ -23,6 +24,7 @@ const ADD_CATEGORY_LABEL = 'Add category';
 const CATEGORIES_LIST_LABEL = 'Edit categories';
 const ADD_TAG_LABEL = 'Add tag';
 const TAGS_LIST_LABEL = 'Edit tags';
+const EXPORT_LABEL = 'Export';
 
 const onItemSelect = (item, history) => {
   switch (item.label) {
@@ -44,6 +46,10 @@ const onItemSelect = (item, history) => {
     }
     case ADD_TAG_LABEL: {
       addTagClicked();
+      break;
+    }
+    case EXPORT_LABEL: {
+      exportClicked();
       break;
     }
     default:
@@ -87,7 +93,11 @@ export function Header() {
             content={({ close }) => (
               <div style={{ width: '100wh' }}>
                 <p>Filter by tag</p>
-                <Button shape={SHAPE.pill} size="compact" onClick={clearSelectedTagsClicked}>
+                <Button
+                  shape={SHAPE.pill}
+                  size='compact'
+                  onClick={clearSelectedTagsClicked}
+                >
                   Clear tags
                 </Button>
                 {filters}
@@ -120,6 +130,7 @@ export function Header() {
               { label: ADD_TAG_LABEL },
               { label: CATEGORIES_LIST_LABEL },
               { label: TAGS_LIST_LABEL },
+              { label: EXPORT_LABEL },
             ]}
             onItemSelect={({ item }) => {
               close();
