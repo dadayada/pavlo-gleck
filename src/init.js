@@ -4,3 +4,4 @@ import './confirm-modal/init';
 import './person-info/init';
 import './header/init';
 import './edit-tags/init';
+import './import-modal/init';

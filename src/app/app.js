@@ -11,6 +11,7 @@ import { PersonInfo } from '../person-info/view';
 import { ConfirmModal } from '../confirm-modal/view';
 import { EditCategories } from '../edit-categories/view';
 import { EditTags } from '../edit-tags/view';
+import { ImportModal } from '../import-modal/view';
 
 const engine = new Styletron();
 
@@ -39,6 +40,7 @@ export function App() {
             </Switch>
             <AddModal />
             <ConfirmModal />
+            <ImportModal />
           </Block>
         </Router>
       </BaseProvider>

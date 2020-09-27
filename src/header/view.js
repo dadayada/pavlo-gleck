@@ -16,6 +16,7 @@ import {
   tagToggled,
   clearSelectedTagsClicked,
   exportClicked,
+  importClicked,
 } from '.';
 import { $tags } from '../core/state';
 
@@ -25,6 +26,7 @@ const CATEGORIES_LIST_LABEL = 'Edit categories';
 const ADD_TAG_LABEL = 'Add tag';
 const TAGS_LIST_LABEL = 'Edit tags';
 const EXPORT_LABEL = 'Export';
+const IMPORT_LABEL = 'Import';
 
 const onItemSelect = (item, history) => {
   switch (item.label) {
@@ -50,6 +52,10 @@ const onItemSelect = (item, history) => {
     }
     case EXPORT_LABEL: {
       exportClicked();
+      break;
+    }
+    case IMPORT_LABEL: {
+      importClicked();
       break;
     }
     default:
@@ -131,6 +137,7 @@ export function Header() {
               { label: CATEGORIES_LIST_LABEL },
               { label: TAGS_LIST_LABEL },
               { label: EXPORT_LABEL },
+              { label: IMPORT_LABEL },
             ]}
             onItemSelect={({ item }) => {
               close();

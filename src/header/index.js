@@ -6,6 +6,7 @@ export const addTagClicked = createEvent();
 export const tagToggled = createEvent();
 export const clearSelectedTagsClicked = createEvent();
 export const exportClicked = createEvent();
+export const importClicked = createEvent();
 
 export const exportToJSONFileFx = createEffect({
   handler: params => {
