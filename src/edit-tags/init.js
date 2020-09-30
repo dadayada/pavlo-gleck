@@ -8,7 +8,7 @@ export const removeTagClicked = createEvent();
 const $tagIdToRemove = createStore(null).on(removeTagClicked, (_, { id }) => id);
 
 forward({
-  from: removeTagClicked.map(() => 'remove-tag'),
+  from: removeTagClicked.map(() => ({ owner: 'remove-tag' })),
   to: confirmModalOpened,
 });
 

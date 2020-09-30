@@ -15,6 +15,7 @@ import {
   tagRemovedForPerson,
   appMigratedFromAlphaToV1_0_0,
   importRecords,
+  categoryRemoved,
 } from '.';
 import {
   $people,
@@ -45,7 +46,8 @@ $categories
   .on(categoryNameChanged, (s, { id, value }) =>
     s.map(el => (el.id === id ? { ...el, name: value } : el))
   )
-  .on(importRecords, (_, p) => p.categories);
+  .on(importRecords, (_, p) => p.categories)
+  .on(categoryRemoved, (s, { id }) => s.filter(el => el.id !== id));
 
 $peopleInfo
   .on(personInfoEdited, (s, { personId, info }) => ({
@@ -74,7 +76,15 @@ $peopleInfo
       }, {}),
     },
   }))
-  .on(importRecords, (_, p) => p.peopleInfo);
+  .on(importRecords, (_, p) => p.peopleInfo)
+  .on(categoryRemoved, (s, { id }) => {
+    for (const categoriesMap of Object.values(s)) {
+      if (id in categoriesMap) {
+        delete categoriesMap[id];
+      }
+    }
+    return { ...s };
+  });
 
 $tags
   .on(tagAdded, (s, p) => [...s, p])

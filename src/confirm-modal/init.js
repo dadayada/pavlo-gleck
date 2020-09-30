@@ -5,7 +5,7 @@ import {
   confirmModalClickedCancel,
   confirmModalClickedYes,
 } from '.';
-import { $confirmModalOwner } from './state';
+import { $confirmModalOwner, $description } from './state';
 
 export const $confirmModalOpen = createStore(false)
   .on(confirmModalOpened, () => true)
@@ -16,5 +16,9 @@ export const $confirmModalOpen = createStore(false)
   ]);
 
 $confirmModalOwner
-  .on(confirmModalOpened, (_, p) => p)
+  .on(confirmModalOpened, (_, { owner }) => owner)
+  .reset([confirmModalClickedCancel, confirmModalClosed]);
+
+$description
+  .on(confirmModalOpened, (_, { description }) => description)
   .reset([confirmModalClickedCancel, confirmModalClosed]);

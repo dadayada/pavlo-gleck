@@ -18,7 +18,7 @@ const $personIdToRemove = createStore(null).on(
 );
 
 forward({
-  from: removePersonClicked.map(() => 'remove-person'),
+  from: removePersonClicked.map(() => ({ owner: 'remove-person' })),
   to: confirmModalOpened,
 });
 

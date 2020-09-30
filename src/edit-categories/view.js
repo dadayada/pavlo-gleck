@@ -2,12 +2,15 @@ import React from 'react';
 import { useStore } from 'effector-react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { ListItem } from 'baseui/list';
+import { Button } from 'baseui/button';
+import { DeleteAlt } from 'baseui/icon';
 import { Input } from 'baseui/input';
 import { Block } from 'baseui/block';
 import { Grab } from 'baseui/icon';
 import { Display4 } from 'baseui/typography';
 import { $categories } from '../core/state';
 import { categoriesReordered, categoryNameChanged } from '../core';
+import { deleteCategoryClicked } from '.';
 
 export function EditCategories() {
   const categories = useStore($categories);
@@ -31,6 +34,12 @@ export function EditCategories() {
                 categoryNameChanged({ id: item.id, value: e.target.value })
               }
             />
+            <Button
+              kind='tertiary'
+              onClick={() => deleteCategoryClicked({ id: item.id })}
+            >
+              <DeleteAlt size='scale800' />
+            </Button>
           </ListItem>
         </div>
       )}
